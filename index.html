@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>CHAR CHAND — Luxury Indian Fashion & Handcrafted Jewellery</title>
+  <meta name="description" content="CHAR CHAND presents a scroll-driven couture experience of handcrafted Indian fashion, bridal attire, and luxury emerald jewellery." />
+  
+  <!-- Preconnect Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="loading-state">
+
+  <!-- ==========================================
+       LUXURY PRELOADER
+       ========================================== -->
+  <div id="preloader" class="preloader" aria-hidden="true">
+    <div class="preloader-content">
+      <div class="brand-monogram">
+        <svg viewBox="0 0 100 100" class="monogram-svg">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="290" stroke-dashoffset="290" class="circle-path"/>
+          <text x="50" y="58" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="32" font-weight="300" fill="currentColor" letter-spacing="2">CC</text>
+        </svg>
+      </div>
+      <h2 class="preloader-title">CHAR CHAND</h2>
+      <p class="preloader-subtitle">COUTURE FILM ATELIER</p>
+      <div class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      <span id="progress-text" class="progress-text">0%</span>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       FIXED HEADER & SHOP NOW NAVIGATION
+       ========================================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <!-- Left: Logo / Brand -->
+      <a href="#hero" class="nav-brand" aria-label="CHAR CHAND Home">
+        <span class="brand-name">CHAR CHAND</span>
+        <span class="brand-tag">HAUTE COUTURE</span>
+      </a>
+
+      <!-- Center: Subtle Menu Links -->
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#hero" class="nav-link">FILM</a>
+        <a href="#creation" class="nav-link">ATELIER</a>
+        <a href="#necklace" class="nav-link">JEWELLERY</a>
+        <a href="#final" class="nav-link">BRAND</a>
+      </nav>
+
+      <!-- Right: Fixed Luxury Shop Now Button -->
+      <div class="nav-action">
+        <a id="shop-now-btn" href="#SHOPIFY_URL" target="_blank" rel="noopener" class="btn-shop-now">
+          <span class="btn-text">SHOP NOW</span>
+          <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       PROGRESS INDICATOR BAR (FLOATING)
+       ========================================== -->
+  <div class="scroll-tracker" aria-hidden="true">
+    <div class="scroll-tracker-fill" id="global-scroll-progress"></div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- ==========================================
+         SECTION 1 — HERO (Pinned Fashion Reveal)
+         ========================================== -->
+    <section id="hero" class="scroll-section hero-section">
+      <div class="sticky-container">
+        <video id="hero-video" class="scrub-video" poster="/posters/hero_poster.jpg" src="/videos/hero.mp4" preload="auto" muted playsinline></video>
+        <div class="canvas-overlay hero-overlay">
+          <div class="editorial-content hero-content">
+            <div class="brand-badge-wrapper">
+              <span class="editorial-label">AUTUMN / WINTER COUTURE</span>
+            </div>
+            
+            <h1 class="editorial-title hero-title">
+              <span class="title-main">CHAR CHAND</span>
+              <span class="title-sub">CRAFTED WITH ELEGANCE.<br/>DESIGNED FOR YOU.</span>
+            </h1>
+
+            <p class="editorial-description hero-desc">
+              An immersive exploration of modern royalty, exquisite hand embroidery, and emerald jewellery craftsmanship.
+            </p>
+
+            <div class="scroll-cue" aria-hidden="true">
+              <span class="cue-text">SCROLL TO DISCOVER STORY</span>
+              <div class="cue-line"><div class="cue-dot"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 2 — HANDCRAFTED CREATION
+         ========================================== -->
+    <section id="creation" class="scroll-section craft-section">
+      <div class="sticky-container">
+        <video id="creation-video" class="scrub-video" poster="/posters/creation_poster.jpg" src="/videos/creation_blouse.mp4" preload="auto" muted playsinline></video>
+        <div class="canvas-overlay craft-overlay">
+          <div class="editorial-content craft-content">
+            <span class="editorial-label">ACT I — THE ART OF EMBROIDERY</span>
+            <h2 class="editorial-title craft-title">
+              HANDCRAFTED
+            </h2>
+            <p class="editorial-subtitle craft-sub">
+              MADE BY HAND. MADE WITH INTENTION.
+            </p>
+            <div class="gold-accent-line"></div>
+            <p class="editorial-description">
+              Every thread of metallic zari is intricately stitched onto pure silk by master artisans in our Jaipur atelier.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 3 — BLOUSE / TAILORING PROCESS
+         ========================================== -->
+    <section id="blouse" class="scroll-section craft-section blouse-section">
+      <div class="sticky-container">
+        <video id="blouse-video" class="scrub-video" poster="/posters/creation_poster.jpg" src="/videos/creation_blouse.mp4" preload="auto" muted playsinline></video>
+        <div class="canvas-overlay blouse-overlay">
+          <div class="editorial-content blouse-content">
+            <span class="editorial-label">ACT II — COUTURE TAILORING</span>
+            <h2 class="editorial-title blouse-title">
+              THE PERFECT SILHOUETTE
+            </h2>
+            <p class="editorial-subtitle blouse-sub">
+              PRECISION & HERITAGE TAILORING
+            </p>
+            <div class="gold-accent-line"></div>
+            <p class="editorial-description">
+              Sculpted back ties and intricate neckline embellishments transformed into bespoke bridal couture.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 4 — NECKLACE CRAFT
+         ========================================== -->
+    <section id="necklace" class="scroll-section craft-section necklace-section">
+      <div class="sticky-container">
+        <video id="necklace-video" class="scrub-video" poster="/posters/necklace_poster.jpg" src="/videos/necklace.mp4" preload="auto" muted playsinline></video>
+        <div class="canvas-overlay necklace-overlay">
+          <div class="editorial-content necklace-content">
+            <span class="editorial-label">ACT III — HIGH JEWELLERY</span>
+            <h2 class="editorial-title necklace-title">
+              CRAFTED DETAILS
+            </h2>
+            <p class="editorial-subtitle necklace-sub">
+              JEWELLERY, BUILT BY HAND.
+            </p>
+            <div class="gold-accent-line"></div>
+            <p class="editorial-description">
+              Uncut Kundan diamonds and hand-selected Zambian emeralds meticulously set stone by stone.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 5 — EARRING CRAFT
+         ========================================== -->
+    <section id="earring" class="scroll-section craft-section earring-section">
+      <div class="sticky-container">
+        <video id="earring-video" class="scrub-video" poster="/posters/earring_poster.jpg" src="/videos/earring.mp4" preload="auto" muted playsinline></video>
+        <div class="canvas-overlay earring-overlay">
+          <div class="editorial-content earring-content">
+            <span class="editorial-label">ACT IV — FINISHING TOUCHES</span>
+            <h2 class="editorial-title earring-title">
+              SYMMETRY & HARMONY
+            </h2>
+            <p class="editorial-subtitle earring-sub">
+              GEMSTONE SELECTION & ASSEMBLY
+            </p>
+            <div class="gold-accent-line"></div>
+            <p class="editorial-description">
+              Pairing tear-drop emeralds with precision pearl setting for an unforgettable royal poise.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 6 — FINAL BRAND MOMENT & CRAFT GALLERY FOOTER
+         ========================================== -->
+    <section id="final" class="final-brand-section">
+      <div class="brand-background-glow"></div>
+      <div class="final-container">
+        <div class="final-monogram">
+          <svg viewBox="0 0 120 120" class="final-monogram-svg">
+            <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="1" class="outer-ring"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4" class="inner-ring"/>
+            <text x="60" y="70" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="42" font-weight="300" fill="currentColor">CC</text>
+          </svg>
+        </div>
+
+        <h2 class="final-brand-title">CHAR CHAND</h2>
+        
+        <div class="brand-motto">
+          <span>HANDCRAFTED</span>
+          <span class="bullet">•</span>
+          <span>DESIGNED</span>
+          <span class="bullet">•</span>
+          <span>TIMELESS</span>
+        </div>
+
+        <p class="final-description">
+          Step into our online atelier to explore our bespoke bridal lehengas, hand-embroidered sarees, and signature emerald jewellery collections.
+        </p>
+
+        <div class="final-cta-wrapper">
+          <a id="final-shop-btn" href="#SHOPIFY_URL" target="_blank" rel="noopener" class="btn-primary-shop">
+            <span>EXPLORE THE COLLECTION</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- ==========================================
+             ATELIER HERITAGE CRAFT GALLERY (3 USER CRAFT IMAGES)
+             ========================================== -->
+        <div class="craft-gallery-section">
+          <div class="gold-accent-line"></div>
+          <span class="editorial-label">ATELIER HERITAGE</span>
+          <h3 class="craft-gallery-title">INDIAN EMBROIDERY & CRAFTSMANSHIP</h3>
+          <p class="craft-gallery-desc">
+            A closer look into our master artisans handcrafting intricate Adda tassel work, Aari needlework, and Zardozi sequin embellishments.
+          </p>
+
+          <div class="craft-gallery-grid">
+            <div class="craft-gallery-card">
+              <div class="craft-img-wrapper">
+                <img src="/craft/craft1.jpg" alt="CHAR CHAND Adda Work Red Velvet Beaded Tassel Embroidery" class="craft-gallery-img" />
+              </div>
+              <div class="craft-card-info">
+                <span class="craft-card-tag">ADDA WORK</span>
+                <h4 class="craft-card-title">Beaded Zari & Tassel Neckline</h4>
+              </div>
+            </div>
+
+            <div class="craft-gallery-card">
+              <div class="craft-img-wrapper">
+                <img src="/craft/craft2.jpg" alt="CHAR CHAND Aari Embroidery Fine Needlework" class="craft-gallery-img" />
+              </div>
+              <div class="craft-card-info">
+                <span class="craft-card-tag">AARI EMBROIDERY</span>
+                <h4 class="craft-card-title">Intricate Hook Needlework</h4>
+              </div>
+            </div>
+
+            <div class="craft-gallery-card">
+              <div class="craft-img-wrapper">
+                <img src="/craft/craft3.jpg" alt="CHAR CHAND Zardozi Sequin & Gemstone Embroidery" class="craft-gallery-img" />
+              </div>
+              <div class="craft-card-info">
+                <span class="craft-card-tag">ZARDOZI CRAFT</span>
+                <h4 class="craft-card-title">Hand-Stitched Floral Embellishment</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             LUXURY INSTAGRAM & BRAND EMBLEM FOOTER
+             ========================================== -->
+        <footer class="char-chand-footer">
+          <!-- Thin Gold Divider -->
+          <div class="footer-gold-divider"></div>
+
+          <!-- Follow Our Journey Instagram Section -->
+          <div class="footer-instagram-section">
+            <span class="instagram-label">FOLLOW OUR JOURNEY</span>
+            <a href="https://www.instagram.com/charchand.raipur/" target="_blank" rel="noopener" class="instagram-handle-link" aria-label="CHAR CHAND Instagram @charchand.raipur">
+              <svg class="instagram-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <span>@charchand.raipur</span>
+            </a>
+          </div>
+
+          <!-- Official CHAR CHAND Logo Asset -->
+          <div class="footer-logo-section">
+            <img src="/logo.jpg" alt="CHAR CHAND Official Emblem" class="footer-brand-logo" />
+          </div>
+
+          <!-- Minimal Copyright Footer Text -->
+          <div class="footer-copyright">
+            <p>&copy; 2026 CHAR CHAND HAUTE COUTURE. ALL RIGHTS RESERVED.</p>
+          </div>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

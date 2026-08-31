@@ -1,0 +1,890 @@
+/* ==========================================================================
+   CHAR CHAND — LUXURY INDIAN FASHION & JEWELLERY COUTURE DESIGN SYSTEM
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --bg-ivory: #FAF8F5;
+  --bg-cream: #F4EFE6;
+  --bg-champagne: #EBE3D3;
+  --accent-burgundy: #4A121A;
+  --accent-burgundy-dark: #360B12;
+  --accent-burgundy-hover: #5E1722;
+  --accent-gold: #C5A059;
+  --accent-gold-light: #E7D7B5;
+  --accent-gold-metallic: #D4AF37;
+  --text-dark: #1C1917;
+  --text-muted: #786C5D;
+  --text-light: #FAF8F5;
+  --border-gold: rgba(197, 160, 89, 0.35);
+
+  /* Fonts */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Montserrat', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing & Layout */
+  --nav-height: 80px;
+  --radius-pill: 50px;
+
+  /* Transitions */
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset & Base Setup */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--bg-ivory);
+  color: var(--text-dark);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  touch-action: manipulation;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bg-ivory);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body.loading-state {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   PRELOADER
+   ========================================================================== */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--bg-ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-content {
+  text-align: center;
+  max-width: 320px;
+  padding: 2rem;
+}
+
+.brand-monogram {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  color: var(--accent-burgundy);
+}
+
+.circle-path {
+  animation: rotateCircle 8s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes rotateCircle {
+  100% { transform: rotate(360deg); }
+}
+
+.preloader-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  color: var(--accent-burgundy);
+  margin-bottom: 0.25rem;
+}
+
+.preloader-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  color: var(--accent-gold);
+  margin-bottom: 2rem;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 2px;
+  background: rgba(197, 160, 89, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-burgundy));
+  transition: width 0.15s ease-out;
+}
+
+.progress-text {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   NAVIGATION & FIXED SHOP NOW BUTTON
+   ========================================================================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 1000;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(250, 248, 245, 0.85) 0%, rgba(250, 248, 245, 0.4) 70%, rgba(250, 248, 245, 0) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: var(--transition-smooth);
+}
+
+.navbar.scrolled {
+  background: rgba(250, 248, 245, 0.92);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--accent-burgundy);
+  line-height: 1;
+}
+
+.brand-tag {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  color: var(--accent-gold);
+  margin-top: 4px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--text-dark);
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent-gold);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-burgundy);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Top-Right Fixed Shop Now Button */
+.btn-shop-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--accent-burgundy);
+  color: var(--bg-ivory);
+  border: 1px solid var(--accent-gold);
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  box-shadow: 0 4px 18px rgba(74, 18, 26, 0.25);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.btn-shop-now:hover {
+  background-color: var(--accent-burgundy-hover);
+  border-color: var(--accent-gold-metallic);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(74, 18, 26, 0.35);
+}
+
+.btn-shop-now .btn-icon {
+  transition: transform 0.3s ease;
+}
+
+.btn-shop-now:hover .btn-icon {
+  transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   GLOBAL SCROLL TRACKER
+   ========================================================================== */
+.scroll-tracker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 10000;
+  background: transparent;
+  pointer-events: none;
+}
+
+.scroll-tracker-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-burgundy));
+}
+
+/* ==========================================================================
+   PINNED SCROLL SECTIONS & FULL VIEWPORT VIDEO STAGE
+   ========================================================================== */
+.scroll-section {
+  position: relative;
+  width: 100%;
+  height: 300vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-ivory);
+}
+
+.sticky-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-ivory);
+  z-index: 1;
+}
+
+.scrub-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+  background-color: var(--bg-ivory);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Canvas Overlay & Editorial Text Placement */
+.canvas-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: radial-gradient(circle at center, rgba(250, 248, 245, 0.05) 0%, rgba(26, 24, 23, 0.35) 100%);
+  pointer-events: none;
+}
+
+.hero-overlay {
+  background: linear-gradient(180deg, rgba(250, 248, 245, 0.15) 0%, rgba(74, 18, 26, 0.1) 50%, rgba(26, 24, 23, 0.45) 100%);
+}
+
+.editorial-content {
+  text-align: center;
+  max-width: 800px;
+  color: var(--bg-ivory);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.editorial-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  color: var(--accent-gold-light);
+  margin-bottom: 1.2rem;
+  padding: 0.3rem 0.8rem;
+  border-bottom: 1px solid var(--accent-gold);
+}
+
+.editorial-title {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.15em;
+  color: var(--bg-ivory);
+  margin-bottom: 1rem;
+}
+
+.title-main {
+  display: block;
+  font-size: 5rem;
+  letter-spacing: 0.25em;
+  color: var(--bg-ivory);
+  margin-bottom: 0.5rem;
+}
+
+.title-sub {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--accent-gold-light);
+  line-height: 1.4;
+}
+
+.editorial-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: var(--accent-gold-light);
+  margin-bottom: 1.5rem;
+}
+
+.gold-accent-line {
+  width: 60px;
+  height: 1px;
+  background: var(--accent-gold);
+  margin: 1.5rem auto;
+}
+
+.editorial-description {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.7;
+  letter-spacing: 0.05em;
+  color: rgba(250, 248, 245, 0.95);
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+/* Hero Scroll Cue */
+.scroll-cue {
+  margin-top: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cue-text {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  color: var(--accent-gold-light);
+}
+
+.cue-line {
+  width: 1px;
+  height: 45px;
+  background: rgba(231, 215, 181, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.cue-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background: var(--accent-gold);
+  animation: scrollAnim 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scrollAnim {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(300%); }
+}
+
+/* ==========================================================================
+   SECTION 6 — FINAL BRAND MOMENT
+   ========================================================================== */
+.final-brand-section {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--bg-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.brand-background-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, rgba(74, 18, 26, 0.05) 50%, rgba(244, 239, 230, 0) 70%);
+  pointer-events: none;
+}
+
+.final-container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.final-monogram {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 2rem;
+  color: var(--accent-burgundy);
+}
+
+.final-brand-title {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--accent-burgundy);
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.brand-motto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  color: var(--accent-gold);
+  margin-bottom: 2.5rem;
+}
+
+.bullet {
+  color: var(--accent-burgundy);
+  font-size: 0.6rem;
+}
+
+.final-description {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-dark);
+  max-width: 620px;
+  margin: 0 auto 3rem;
+  font-style: italic;
+}
+
+.final-cta-wrapper {
+  margin-bottom: 4rem;
+}
+
+.btn-primary-shop {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--accent-burgundy);
+  color: var(--bg-ivory);
+  border: 1px solid var(--accent-gold-metallic);
+  padding: 1.2rem 3rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  box-shadow: 0 10px 30px rgba(74, 18, 26, 0.25);
+  transition: var(--transition-smooth);
+}
+
+.btn-primary-shop:hover {
+  background: var(--accent-burgundy-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(74, 18, 26, 0.35);
+  border-color: var(--bg-ivory);
+}
+
+.btn-primary-shop svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-primary-shop:hover svg {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   ATELIER HERITAGE CRAFT GALLERY (3 USER CRAFT IMAGES)
+   ========================================================================== */
+.craft-gallery-section {
+  margin: 5rem auto 4rem;
+  width: 100%;
+  max-width: 1050px;
+}
+
+.craft-gallery-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--accent-burgundy);
+  margin-bottom: 0.75rem;
+}
+
+.craft-gallery-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+}
+
+.craft-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.craft-gallery-card {
+  background: var(--bg-ivory);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.craft-gallery-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(74, 18, 26, 0.12);
+}
+
+.craft-img-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--bg-cream);
+}
+
+.craft-gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.craft-gallery-card:hover .craft-gallery-img {
+  transform: scale(1.05);
+}
+
+.craft-card-info {
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  background: var(--bg-ivory);
+  border-top: 1px solid var(--border-gold);
+}
+
+.craft-card-tag {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--accent-gold);
+  margin-bottom: 0.4rem;
+}
+
+.craft-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--accent-burgundy);
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   CHAR CHAND LUXURY INSTAGRAM & BRAND EMBLEM FOOTER
+   ========================================================================== */
+.char-chand-footer {
+  width: 100%;
+  max-width: 750px;
+  margin: 3.5rem auto 0;
+  padding: 0 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-gold-divider {
+  width: 140px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  margin: 0 auto 3rem;
+  opacity: 0.8;
+}
+
+.footer-instagram-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+}
+
+.instagram-label {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  color: var(--accent-gold);
+}
+
+.instagram-handle-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--accent-burgundy);
+  transition: color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.instagram-handle-link:hover {
+  color: var(--accent-burgundy-hover);
+  transform: translateY(-2px);
+}
+
+.instagram-icon {
+  color: var(--accent-gold);
+  stroke: var(--accent-gold);
+}
+
+.footer-logo-section {
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-brand-logo {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(74, 18, 26, 0.08);
+  transition: transform 0.4s ease;
+}
+
+.footer-brand-logo:hover {
+  transform: scale(1.04);
+}
+
+.footer-copyright {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .editorial-title {
+    font-size: 3rem;
+  }
+  .title-main {
+    font-size: 3.5rem;
+  }
+  .final-brand-title {
+    font-size: 3.5rem;
+  }
+  .craft-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1.25rem;
+    height: 65px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+  }
+
+  .brand-tag {
+    font-size: 0.5rem;
+  }
+
+  .btn-shop-now {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+  }
+
+  /* Mobile 9:16 Portrait Aspect Optimization: Focus on Model Face & Jewellery */
+  .scrub-video {
+    object-position: center 30%;
+  }
+
+  .editorial-content {
+    padding: 1rem 0.5rem;
+  }
+
+  .editorial-title {
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .title-main {
+    font-size: 2.3rem;
+    letter-spacing: 0.15em;
+  }
+
+  .title-sub {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .editorial-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+  }
+
+  .editorial-description {
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .final-brand-title {
+    font-size: 2.2rem;
+  }
+
+  .brand-motto {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .bullet {
+    display: none;
+  }
+
+  .craft-gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .craft-gallery-title {
+    font-size: 1.7rem;
+  }
+
+  .footer-brand-logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .instagram-handle-link {
+    font-size: 1.15rem;
+  }
+}
