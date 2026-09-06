@@ -11,6 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 
+  <!-- Critical Hero Image Preload for Instant Viewport Sharpness -->
+  <link rel="preload" as="image" href="/posters/hero_poster.webp" type="image/webp" fetchpriority="high" />
+
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body class="loading-state">
@@ -80,9 +83,25 @@
          ========================================== -->
     <section id="hero" class="scroll-section hero-section">
       <div class="sticky-container">
-        <video id="hero-video" class="scrub-video" poster="/posters/hero_poster.jpg" src="/videos/hero.mp4" preload="auto" muted playsinline></video>
+        <!-- High-Resolution Eager Hero Picture -->
+        <picture id="hero-poster-picture" class="hero-poster-picture">
+          <source srcset="/posters/hero_poster.webp" type="image/webp" />
+          <img id="hero-poster-img" 
+               class="hero-poster-display" 
+               src="/posters/hero_poster.jpg" 
+               alt="CHAR CHAND Autumn Winter Haute Couture Model" 
+               width="1280" 
+               height="720" 
+               loading="eager" 
+               fetchpriority="high" 
+               decoding="async" />
+        </picture>
+        <video id="hero-video" class="hero-video" poster="/posters/hero_poster.webp" preload="metadata" muted playsinline loop>
+          <source src="/videos/hero.webm" type="video/webm" />
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
         <div class="canvas-overlay hero-overlay">
-          <div class="editorial-content hero-content">
+          <div class="editorial-content hero-content visible">
             <div class="brand-badge-wrapper">
               <span class="editorial-label">AUTUMN / WINTER COUTURE</span>
             </div>
@@ -110,7 +129,7 @@
          ========================================== -->
     <section id="creation" class="scroll-section craft-section">
       <div class="sticky-container">
-        <video id="creation-video" class="scrub-video" poster="/posters/creation_poster.jpg" src="/videos/creation_blouse.mp4" preload="auto" muted playsinline></video>
+        <video id="creation-video" class="scrub-video" poster="/posters/creation_poster.webp" data-src="/videos/creation_blouse.mp4" preload="none" muted playsinline></video>
         <div class="canvas-overlay craft-overlay">
           <div class="editorial-content craft-content">
             <span class="editorial-label">ACT I — THE ART OF EMBROIDERY</span>
@@ -134,7 +153,7 @@
          ========================================== -->
     <section id="blouse" class="scroll-section craft-section blouse-section">
       <div class="sticky-container">
-        <video id="blouse-video" class="scrub-video" poster="/posters/creation_poster.jpg" src="/videos/creation_blouse.mp4" preload="auto" muted playsinline></video>
+        <video id="blouse-video" class="scrub-video" poster="/posters/creation_poster.webp" data-src="/videos/creation_blouse.mp4" preload="none" muted playsinline></video>
         <div class="canvas-overlay blouse-overlay">
           <div class="editorial-content blouse-content">
             <span class="editorial-label">ACT II — COUTURE TAILORING</span>
@@ -158,7 +177,7 @@
          ========================================== -->
     <section id="necklace" class="scroll-section craft-section necklace-section">
       <div class="sticky-container">
-        <video id="necklace-video" class="scrub-video" poster="/posters/necklace_poster.jpg" src="/videos/necklace.mp4" preload="auto" muted playsinline></video>
+        <video id="necklace-video" class="scrub-video" poster="/posters/necklace_poster.webp" data-src="/videos/necklace.mp4" preload="none" muted playsinline></video>
         <div class="canvas-overlay necklace-overlay">
           <div class="editorial-content necklace-content">
             <span class="editorial-label">ACT III — HIGH JEWELLERY</span>
@@ -182,7 +201,7 @@
          ========================================== -->
     <section id="earring" class="scroll-section craft-section earring-section">
       <div class="sticky-container">
-        <video id="earring-video" class="scrub-video" poster="/posters/earring_poster.jpg" src="/videos/earring.mp4" preload="auto" muted playsinline></video>
+        <video id="earring-video" class="scrub-video" poster="/posters/earring_poster.webp" data-src="/videos/earring.mp4" preload="none" muted playsinline></video>
         <div class="canvas-overlay earring-overlay">
           <div class="editorial-content earring-content">
             <span class="editorial-label">ACT IV — FINISHING TOUCHES</span>
@@ -252,7 +271,10 @@
           <div class="craft-gallery-grid">
             <div class="craft-gallery-card">
               <div class="craft-img-wrapper">
-                <img src="/craft/craft1.jpg" alt="CHAR CHAND Adda Work Red Velvet Beaded Tassel Embroidery" class="craft-gallery-img" />
+                <picture>
+                  <source srcset="/craft/craft1.webp" type="image/webp" />
+                  <img src="/craft/craft1.jpg" alt="CHAR CHAND Adda Work Red Velvet Beaded Tassel Embroidery" class="craft-gallery-img" width="627" height="838" loading="lazy" decoding="async" />
+                </picture>
               </div>
               <div class="craft-card-info">
                 <span class="craft-card-tag">ADDA WORK</span>
@@ -262,7 +284,10 @@
 
             <div class="craft-gallery-card">
               <div class="craft-img-wrapper">
-                <img src="/craft/craft2.jpg" alt="CHAR CHAND Aari Embroidery Fine Needlework" class="craft-gallery-img" />
+                <picture>
+                  <source srcset="/craft/craft2.webp" type="image/webp" />
+                  <img src="/craft/craft2.jpg" alt="CHAR CHAND Aari Embroidery Fine Needlework" class="craft-gallery-img" width="685" height="853" loading="lazy" decoding="async" />
+                </picture>
               </div>
               <div class="craft-card-info">
                 <span class="craft-card-tag">AARI EMBROIDERY</span>
@@ -272,7 +297,10 @@
 
             <div class="craft-gallery-card">
               <div class="craft-img-wrapper">
-                <img src="/craft/craft3.jpg" alt="CHAR CHAND Zardozi Sequin & Gemstone Embroidery" class="craft-gallery-img" />
+                <picture>
+                  <source srcset="/craft/craft3.webp" type="image/webp" />
+                  <img src="/craft/craft3.jpg" alt="CHAR CHAND Zardozi Sequin & Gemstone Embroidery" class="craft-gallery-img" width="536" height="878" loading="lazy" decoding="async" />
+                </picture>
               </div>
               <div class="craft-card-info">
                 <span class="craft-card-tag">ZARDOZI CRAFT</span>
@@ -304,7 +332,10 @@
 
           <!-- Official CHAR CHAND Logo Asset -->
           <div class="footer-logo-section">
-            <img src="/logo.jpg" alt="CHAR CHAND Official Emblem" class="footer-brand-logo" />
+            <picture>
+              <source srcset="/logo.webp" type="image/webp" />
+              <img src="/logo.jpg" alt="CHAR CHAND Official Emblem" class="footer-brand-logo" width="140" height="140" loading="lazy" decoding="async" />
+            </picture>
           </div>
 
           <!-- Minimal Copyright Footer Text -->

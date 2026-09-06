@@ -3,3 +3,4 @@ dist/
 scratch/
 .DS_Store
 *.log
+.netlify/
