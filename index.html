@@ -83,20 +83,7 @@
          ========================================== -->
     <section id="hero" class="scroll-section hero-section">
       <div class="sticky-container">
-        <!-- High-Resolution Eager Hero Picture -->
-        <picture id="hero-poster-picture" class="hero-poster-picture">
-          <source srcset="/posters/hero_poster.webp" type="image/webp" />
-          <img id="hero-poster-img" 
-               class="hero-poster-display" 
-               src="/posters/hero_poster.jpg" 
-               alt="CHAR CHAND Autumn Winter Haute Couture Model" 
-               width="1280" 
-               height="720" 
-               loading="eager" 
-               fetchpriority="high" 
-               decoding="async" />
-        </picture>
-        <video id="hero-video" class="hero-video" poster="/posters/hero_poster.webp" preload="metadata" muted playsinline loop>
+        <video id="hero-video" class="hero-video" src="/videos/hero.mp4" poster="/posters/hero_poster.webp" autoplay muted playsinline loop preload="auto">
           <source src="/videos/hero.webm" type="video/webm" />
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
@@ -129,7 +116,7 @@
          ========================================== -->
     <section id="creation" class="scroll-section craft-section">
       <div class="sticky-container">
-        <video id="creation-video" class="scrub-video" poster="/posters/creation_poster.webp" data-src="/videos/creation_blouse.mp4" preload="none" muted playsinline></video>
+        <video id="creation-video" class="scrub-video" src="/videos/creation_blouse.mp4" poster="/posters/creation_poster.webp" preload="auto" muted playsinline></video>
         <div class="canvas-overlay craft-overlay">
           <div class="editorial-content craft-content">
             <span class="editorial-label">ACT I — THE ART OF EMBROIDERY</span>
@@ -153,7 +140,7 @@
          ========================================== -->
     <section id="blouse" class="scroll-section craft-section blouse-section">
       <div class="sticky-container">
-        <video id="blouse-video" class="scrub-video" poster="/posters/creation_poster.webp" data-src="/videos/creation_blouse.mp4" preload="none" muted playsinline></video>
+        <video id="blouse-video" class="scrub-video" src="/videos/creation_blouse.mp4" poster="/posters/creation_poster.webp" preload="auto" muted playsinline></video>
         <div class="canvas-overlay blouse-overlay">
           <div class="editorial-content blouse-content">
             <span class="editorial-label">ACT II — COUTURE TAILORING</span>
@@ -177,7 +164,7 @@
          ========================================== -->
     <section id="necklace" class="scroll-section craft-section necklace-section">
       <div class="sticky-container">
-        <video id="necklace-video" class="scrub-video" poster="/posters/necklace_poster.webp" data-src="/videos/necklace.mp4" preload="none" muted playsinline></video>
+        <video id="necklace-video" class="scrub-video" src="/videos/necklace.mp4" poster="/posters/necklace_poster.webp" preload="auto" muted playsinline></video>
         <div class="canvas-overlay necklace-overlay">
           <div class="editorial-content necklace-content">
             <span class="editorial-label">ACT III — HIGH JEWELLERY</span>
@@ -201,7 +188,7 @@
          ========================================== -->
     <section id="earring" class="scroll-section craft-section earring-section">
       <div class="sticky-container">
-        <video id="earring-video" class="scrub-video" poster="/posters/earring_poster.webp" data-src="/videos/earring.mp4" preload="none" muted playsinline></video>
+        <video id="earring-video" class="scrub-video" src="/videos/earring.mp4" poster="/posters/earring_poster.webp" preload="auto" muted playsinline></video>
         <div class="canvas-overlay earring-overlay">
           <div class="editorial-content earring-content">
             <span class="editorial-label">ACT IV — FINISHING TOUCHES</span>

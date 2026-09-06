@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const SHOP_URL = "#SHOPIFY_URL";
 
 /* ==========================================================================
-   VIDEO CONFIGURATION & SECTION MANIFEST (LOWER SECTIONS SCROLL-SCRUBBED)
+   VIDEO CONFIGURATION & SECTION MANIFEST (CINEMATIC SCROLL-SCRUBBED SECTIONS)
    ========================================================================== */
 const VIDEOS_CONFIG = [
   {
@@ -40,20 +40,20 @@ const VIDEOS_CONFIG = [
   }
 ];
 
-// Active Viewport Visibility Map
-const sectionActiveMap = new Map();
-
 /* ==========================================================================
    INITIALIZATION & ENTRY POINT
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
   setupShopNowButtons();
   initLenisSmoothScroll();
-  initHeroVideoTrigger();
-  preloadHeroMedia().then(() => {
+  initHeroVideo();
+  initVideoScrollTriggers();
+
+  // Fast luxury preloader fade-out
+  runPreloader().then(() => {
     hidePreloader();
-    setupViewportObserver();
-    initVideoScrollTriggers();
+    // Ensure Hero video is actively playing
+    playHeroVideo();
   });
 });
 
@@ -99,7 +99,6 @@ function initLenisSmoothScroll() {
   lenis.on('scroll', (e) => {
     ScrollTrigger.update();
 
-    // GPU-friendly transform scaleX without reflow
     if (scrollTracker && typeof e.progress === 'number') {
       scrollTracker.style.transform = `scaleX(${e.progress})`;
     }
@@ -117,162 +116,79 @@ function initLenisSmoothScroll() {
     lenis.raf(time * 1000);
   });
 
-  // Enable lag smoothing to gracefully prevent stutter on frame dips
   gsap.ticker.lagSmoothing(500, 33);
 }
 
 /* ==========================================================================
-   2.5 HERO VIDEO SMART GESTURE PLAYBACK ENGINE
+   3. HERO VIDEO ENGINE (AUTOPLAY + CINEMATIC LOOP + MOBILE GESTURE FALLBACK)
    ========================================================================== */
-let heroVideoStarted = false;
-let heroCleanupFns = [];
-
-function triggerHeroPlayback() {
-  if (heroVideoStarted) return;
+function playHeroVideo() {
   const heroVideo = document.getElementById('hero-video');
-  const posterPicture = document.getElementById('hero-poster-picture');
   if (!heroVideo) return;
-
-  heroVideoStarted = true;
-
-  // Clean up all one-time event listeners
-  heroCleanupFns.forEach(fn => {
-    try { fn(); } catch (_) {}
-  });
-  heroCleanupFns = [];
 
   heroVideo.muted = true;
   heroVideo.playsInline = true;
+  heroVideo.loop = true;
 
-  const playPromise = heroVideo.play();
-  if (playPromise !== undefined) {
-    playPromise.then(() => {
-      if (posterPicture) {
-        posterPicture.classList.add('fade-out-poster');
-      }
-    }).catch((err) => {
-      console.warn('Hero video autoplay deferred or restricted:', err);
-      heroVideoStarted = false; // Allow next user interaction to trigger
+  const promise = heroVideo.play();
+  if (promise !== undefined) {
+    promise.catch((err) => {
+      console.warn('Hero video autoplay deferred by browser policy:', err);
+      // Fallback: resume immediately on any user gesture
+      const resumeOnGesture = () => {
+        heroVideo.play().catch(() => {});
+        ['click', 'touchstart', 'scroll', 'wheel', 'keydown'].forEach(evt => {
+          window.removeEventListener(evt, resumeOnGesture);
+        });
+      };
+      ['click', 'touchstart', 'scroll', 'wheel', 'keydown'].forEach(evt => {
+        window.addEventListener(evt, resumeOnGesture, { passive: true, once: true });
+      });
     });
   }
 }
 
-function initHeroVideoTrigger() {
-  const heroSection = document.getElementById('hero');
+function initHeroVideo() {
+  const heroVideo = document.getElementById('hero-video');
+  if (!heroVideo) return;
 
-  // 1. Lenis scroll listener
-  if (lenis) {
-    const onLenisScroll = (e) => {
-      if (Math.abs(e.scroll) > 2 || Math.abs(e.velocity) > 0.02) {
-        triggerHeroPlayback();
-      }
-    };
-    lenis.on('scroll', onLenisScroll);
-    heroCleanupFns.push(() => lenis.off('scroll', onLenisScroll));
-  }
+  heroVideo.muted = true;
+  heroVideo.playsInline = true;
+  heroVideo.autoplay = true;
+  heroVideo.loop = true;
 
-  // 2. Window native scroll
-  const onNativeScroll = () => {
-    if (window.scrollY > 2) {
-      triggerHeroPlayback();
+  playHeroVideo();
+
+  // User interaction insurance: ensure video starts playing on first tap/scroll
+  const ensurePlaying = () => {
+    if (heroVideo.paused) {
+      heroVideo.play().catch(() => {});
     }
   };
-  window.addEventListener('scroll', onNativeScroll, { passive: true });
-  heroCleanupFns.push(() => window.removeEventListener('scroll', onNativeScroll));
-
-  // 3. Mouse wheel event (immediate scroll wheel gesture)
-  const onWheel = (e) => {
-    if (Math.abs(e.deltaY) > 2 || Math.abs(e.deltaX) > 2) {
-      triggerHeroPlayback();
-    }
-  };
-  window.addEventListener('wheel', onWheel, { passive: true });
-  heroCleanupFns.push(() => window.removeEventListener('wheel', onWheel));
-
-  // 4. Mobile touchstart and touchmove (immediate touch/swipe gesture)
-  const onTouch = () => {
-    triggerHeroPlayback();
-  };
-  window.addEventListener('touchstart', onTouch, { passive: true });
-  window.addEventListener('touchmove', onTouch, { passive: true });
-  heroCleanupFns.push(() => {
-    window.removeEventListener('touchstart', onTouch);
-    window.removeEventListener('touchmove', onTouch);
-  });
-
-  // 5. User direct click or tap anywhere on the hero section
-  if (heroSection) {
-    const onPointer = () => triggerHeroPlayback();
-    heroSection.addEventListener('pointerdown', onPointer, { passive: true });
-    heroCleanupFns.push(() => heroSection.removeEventListener('pointerdown', onPointer));
-  }
-
-  // 6. Keyboard navigation keys
-  const onKey = (e) => {
-    if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space'].includes(e.code)) {
-      triggerHeroPlayback();
-    }
-  };
-  window.addEventListener('keydown', onKey, { passive: true });
-  heroCleanupFns.push(() => window.removeEventListener('keydown', onKey));
+  window.addEventListener('click', ensurePlaying, { passive: true });
+  window.addEventListener('touchstart', ensurePlaying, { passive: true });
+  window.addEventListener('scroll', ensurePlaying, { passive: true });
 }
 
 /* ==========================================================================
-   3. HERO CRITICAL MEDIA PRELOAD & INSTANT LAUNCH ENGINE
+   4. LUXURY PRELOADER
    ========================================================================== */
-function preloadHeroMedia() {
+function runPreloader() {
   return new Promise((resolve) => {
     const progressBar = document.getElementById('progress-bar');
     const progressText = document.getElementById('progress-text');
-    const heroPoster = document.getElementById('hero-poster-img');
-    const heroVideo = document.getElementById('hero-video');
 
-    const updateProgress = (pct) => {
-      if (progressBar) progressBar.style.width = `${pct}%`;
-      if (progressText) progressText.innerText = `${pct}%`;
-    };
+    let pct = 20;
+    const interval = setInterval(() => {
+      pct += 25;
+      if (progressBar) progressBar.style.width = `${Math.min(pct, 100)}%`;
+      if (progressText) progressText.innerText = `${Math.min(pct, 100)}%`;
 
-    updateProgress(35);
-
-    if (heroVideo) {
-      heroVideo.pause();
-      heroVideo.muted = true;
-      heroVideo.playsInline = true;
-    }
-
-    let isDone = false;
-    const finish = () => {
-      if (isDone) return;
-      isDone = true;
-      updateProgress(100);
-      resolve();
-    };
-
-    // Hero image is eager & prioritized. When decoded or loaded, page can launch immediately
-    if (heroPoster) {
-      if (heroPoster.complete && heroPoster.naturalWidth > 0) {
-        updateProgress(80);
-        setTimeout(finish, 180);
-      } else {
-        heroPoster.addEventListener('load', () => {
-          updateProgress(85);
-          setTimeout(finish, 150);
-        }, { once: true });
-        heroPoster.addEventListener('error', finish, { once: true });
+      if (pct >= 100) {
+        clearInterval(interval);
+        setTimeout(resolve, 100);
       }
-    }
-
-    if (heroVideo) {
-      if (heroVideo.readyState >= 1) {
-        finish();
-      } else {
-        heroVideo.addEventListener('loadedmetadata', finish, { once: true });
-        heroVideo.addEventListener('error', finish, { once: true });
-      }
-    }
-
-    // Safety fallback: Never keep the user waiting longer than 600ms
-    setTimeout(finish, 600);
+    }, 60);
   });
 }
 
@@ -288,65 +204,7 @@ function hidePreloader() {
 }
 
 /* ==========================================================================
-   4. VIEWPORT INTERSECTION OBSERVER (VIDEO LAZY-LOAD & MEMORY SAVER)
-   ========================================================================== */
-function setupViewportObserver() {
-  const observerOptions = {
-    root: null,
-    rootMargin: '80% 0px 80% 0px', // Buffer zone before entering screen
-    threshold: 0
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const sectionId = entry.target.id;
-      const isVisible = entry.isIntersecting;
-      sectionActiveMap.set(sectionId, isVisible);
-
-      const videoElem = entry.target.querySelector('.scrub-video');
-      if (videoElem) {
-        if (isVisible) {
-          // Lazy attach video src when section approaches viewport
-          if (videoElem.dataset.src && !videoElem.src) {
-            videoElem.src = videoElem.dataset.src;
-            videoElem.load();
-          }
-        } else {
-          // Free hardware decoder when far outside screen
-          videoElem.pause();
-        }
-      }
-    });
-  }, observerOptions);
-
-  VIDEOS_CONFIG.forEach(cfg => {
-    const secElem = document.getElementById(cfg.id);
-    if (secElem) {
-      sectionActiveMap.set(cfg.id, false);
-      observer.observe(secElem);
-    }
-  });
-
-  // Observe Hero section to pause playback when out of screen, resume without reset on return
-  const heroElem = document.getElementById('hero');
-  const heroVideo = document.getElementById('hero-video');
-  if (heroElem && heroVideo) {
-    const heroObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!heroVideoStarted) return;
-        if (entry.isIntersecting) {
-          heroVideo.play().catch(() => {});
-        } else {
-          heroVideo.pause();
-        }
-      });
-    }, { threshold: 0.05 });
-    heroObserver.observe(heroElem);
-  }
-}
-
-/* ==========================================================================
-   5. GSAP SCROLLTRIGGER HARDWARE-FRIENDLY SEEKING ENGINE (~60 FPS)
+   5. GSAP SCROLLTRIGGER CINEMATIC VIDEO SCRUBBING ENGINE
    ========================================================================== */
 function initVideoScrollTriggers() {
   VIDEOS_CONFIG.forEach(cfg => {
@@ -358,88 +216,38 @@ function initVideoScrollTriggers() {
     if (!sectionElem || !videoElem || !stickyElem) return;
 
     videoElem.pause();
+    videoElem.muted = true;
+    videoElem.playsInline = true;
 
-    // Dedicated seeking queue state to eliminate video decoder thrashing
-    let isSeeking = false;
-    let nextTargetTime = null;
-    let seekTimeoutId = null;
-    const FRAME_DELTA = 0.035; // Minimum delta ~1 frame at 24fps
+    let targetTime = 0;
+    let rafId = null;
 
-    function performSeek(target) {
-      if (videoElem.readyState < 1 || !videoElem.duration || isNaN(videoElem.duration)) {
-        return;
-      }
-      isSeeking = true;
-      nextTargetTime = null;
-
-      // Clear any prior safety timeout
-      if (seekTimeoutId) clearTimeout(seekTimeoutId);
-      seekTimeoutId = setTimeout(() => {
-        isSeeking = false;
-        processNextSeek();
-      }, 120); // Decoder fallback watchdog
-
-      if ('fastSeek' in videoElem && typeof videoElem.fastSeek === 'function') {
-        try {
-          videoElem.fastSeek(target);
-        } catch (e) {
-          videoElem.currentTime = target;
+    function applySeek() {
+      if (videoElem.readyState >= 1 && videoElem.duration && !isNaN(videoElem.duration)) {
+        if (Math.abs(videoElem.currentTime - targetTime) > 0.03) {
+          videoElem.currentTime = targetTime;
         }
-      } else {
-        videoElem.currentTime = target;
       }
+      rafId = null;
     }
-
-    function processNextSeek() {
-      if (seekTimeoutId) {
-        clearTimeout(seekTimeoutId);
-        seekTimeoutId = null;
-      }
-      if (nextTargetTime !== null) {
-        const target = nextTargetTime;
-        if (Math.abs(videoElem.currentTime - target) >= FRAME_DELTA) {
-          performSeek(target);
-          return;
-        }
-        nextTargetTime = null;
-      }
-      isSeeking = false;
-    }
-
-    videoElem.addEventListener('seeked', () => {
-      isSeeking = false;
-      processNextSeek();
-    });
-
-    videoElem.addEventListener('error', () => {
-      // Graceful error fallback: allow scrolling with poster
-      isSeeking = false;
-    });
 
     ScrollTrigger.create({
       trigger: sectionElem,
       pin: stickyElem,
       start: 'top top',
       end: 'bottom bottom',
-      pinSpacing: false, // Prevents white gaps between pinned sections
-      scrub: 0.1,
+      pinSpacing: false,
+      scrub: 0.15,
       onUpdate: (self) => {
-        if (sectionActiveMap.get(cfg.id) === false) return;
-
         const progress = self.progress;
         const duration = videoElem.duration || 5.0;
 
         const startTime = duration * cfg.startRatio;
         const endTime = duration * cfg.endRatio;
-        const computedTime = startTime + progress * (endTime - startTime);
+        targetTime = startTime + progress * (endTime - startTime);
 
-        if (!isSeeking && videoElem.readyState >= 2) {
-          if (Math.abs(videoElem.currentTime - computedTime) >= FRAME_DELTA) {
-            performSeek(computedTime);
-          }
-        } else {
-          // Enqueue newest scroll position for the next decoder cycle
-          nextTargetTime = computedTime;
+        if (!rafId) {
+          rafId = requestAnimationFrame(applySeek);
         }
 
         // Editorial Overlay Text Reveal
