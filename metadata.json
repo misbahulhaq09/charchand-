@@ -1,0 +1,6 @@
+{
+  "name": "CHAR CHAND",
+  "description": "Luxury Indian Fashion & Handcrafted Jewellery scroll-driven couture experience",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

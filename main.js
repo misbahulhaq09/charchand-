@@ -43,7 +43,7 @@ const VIDEOS_CONFIG = [
 /* ==========================================================================
    INITIALIZATION & ENTRY POINT
    ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
   setupShopNowButtons();
   initLenisSmoothScroll();
   initHeroVideo();
@@ -55,11 +55,54 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ensure Hero video is actively playing
     playHeroVideo();
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 /* ==========================================================================
-   1. SHOP NOW BUTTON BINDINGS
+   1. SHOP NOW BUTTON BINDINGS & ATELIER NOTICE
    ========================================================================== */
+function showAtelierNotice(message) {
+  let toast = document.getElementById('atelier-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'atelier-toast';
+    toast.style.position = 'fixed';
+    toast.style.bottom = '2rem';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%) translateY(10px)';
+    toast.style.backgroundColor = '#360B12';
+    toast.style.color = '#FAF8F5';
+    toast.style.border = '1px solid #C5A059';
+    toast.style.padding = '0.9rem 1.8rem';
+    toast.style.borderRadius = '50px';
+    toast.style.fontFamily = "'Montserrat', sans-serif";
+    toast.style.fontSize = '0.75rem';
+    toast.style.letterSpacing = '0.12em';
+    toast.style.textAlign = 'center';
+    toast.style.maxWidth = '90vw';
+    toast.style.boxShadow = '0 10px 30px rgba(0,0,0,0.45)';
+    toast.style.zIndex = '999999';
+    toast.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    toast.style.opacity = '0';
+    toast.style.pointerEvents = 'none';
+    document.body.appendChild(toast);
+  }
+  toast.innerText = message;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(10px)';
+  }, 4000);
+}
+
 function setupShopNowButtons() {
   const shopBtns = [document.getElementById('shop-now-btn'), document.getElementById('final-shop-btn')];
   shopBtns.forEach(btn => {
@@ -68,7 +111,7 @@ function setupShopNowButtons() {
       btn.addEventListener('click', (e) => {
         if (SHOP_URL === '#SHOPIFY_URL') {
           e.preventDefault();
-          alert('Shopify integration placeholder: SHOP_URL is set to "#SHOPIFY_URL". Please update the SHOP_URL variable in main.js to link your store.');
+          showAtelierNotice('ATELIER NOTICE: Store link placeholder (#SHOPIFY_URL). Update SHOP_URL in main.js to link your store.');
         }
       });
     }
