@@ -5,10 +5,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
+let lenis = null;
+
 /* ==========================================================================
    CONFIGURABLE SHOPIFY STORE URL
    ========================================================================== */
-const SHOP_URL = "#SHOPIFY_URL";
+const SHOP_URL = "https://charchandpage2.vercel.app/";
 
 /* ==========================================================================
    VIDEO CONFIGURATION & SECTION MANIFEST (CINEMATIC SCROLL-SCRUBBED SECTIONS)
@@ -55,12 +57,6 @@ function init() {
     // Ensure Hero video is actively playing
     playHeroVideo();
   });
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
 }
 
 /* ==========================================================================
@@ -121,7 +117,6 @@ function setupShopNowButtons() {
 /* ==========================================================================
    2. LENIS SMOOTH SCROLLING (OPTIMIZED 60 FPS FOR MOBILE & DESKTOP)
    ========================================================================== */
-let lenis;
 function initLenisSmoothScroll() {
   const isMobile = window.innerWidth <= 768;
 
@@ -214,35 +209,49 @@ function initHeroVideo() {
 }
 
 /* ==========================================================================
-   4. LUXURY PRELOADER
+   4. FAST LUXURY PRELOADER
    ========================================================================== */
 function runPreloader() {
   return new Promise((resolve) => {
     const progressBar = document.getElementById('progress-bar');
     const progressText = document.getElementById('progress-text');
+    let resolved = false;
 
-    let pct = 20;
-    const interval = setInterval(() => {
-      pct += 25;
-      if (progressBar) progressBar.style.width = `${Math.min(pct, 100)}%`;
-      if (progressText) progressText.innerText = `${Math.min(pct, 100)}%`;
+    const complete = () => {
+      if (resolved) return;
+      resolved = true;
+      if (progressBar) progressBar.style.width = '100%';
+      if (progressText) progressText.innerText = '100%';
+      setTimeout(resolve, 60);
+    };
 
-      if (pct >= 100) {
-        clearInterval(interval);
-        setTimeout(resolve, 100);
-      }
-    }, 60);
+    // Quick initial jump
+    if (progressBar) progressBar.style.width = '55%';
+    if (progressText) progressText.innerText = '55%';
+
+    // Any touch/click/key skips preloader immediately
+    ['click', 'keydown', 'touchstart'].forEach(evt => {
+      window.addEventListener(evt, complete, { once: true, passive: true });
+    });
+
+    // Fast finish in ~140ms
+    setTimeout(() => {
+      if (progressBar) progressBar.style.width = '90%';
+      if (progressText) progressText.innerText = '90%';
+    }, 50);
+
+    setTimeout(complete, 140);
   });
 }
 
 function hidePreloader() {
   const preloader = document.getElementById('preloader');
+  document.body.classList.remove('loading-state');
   if (preloader) {
     preloader.classList.add('fade-out');
-    document.body.classList.remove('loading-state');
     setTimeout(() => {
       preloader.style.display = 'none';
-    }, 600);
+    }, 350);
   }
 }
 
@@ -261,6 +270,18 @@ function initVideoScrollTriggers() {
     videoElem.pause();
     videoElem.muted = true;
     videoElem.playsInline = true;
+
+    // Progressive buffer: warm up video stream only when user approaches the section
+    ScrollTrigger.create({
+      trigger: sectionElem,
+      start: 'top 150%',
+      once: true,
+      onEnter: () => {
+        if (videoElem.preload !== 'auto') {
+          videoElem.preload = 'auto';
+        }
+      }
+    });
 
     let targetTime = 0;
     let rafId = null;
@@ -304,4 +325,13 @@ function initVideoScrollTriggers() {
       }
     });
   });
+}
+
+/* ==========================================================================
+   EXECUTE APP LIFECYCLE
+   ========================================================================== */
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
 }
