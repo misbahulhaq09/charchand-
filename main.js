@@ -121,13 +121,13 @@ function initLenisSmoothScroll() {
   const isMobile = window.innerWidth <= 768;
 
   lenis = new Lenis({
-    duration: isMobile ? 0.85 : 1.15,
+    duration: isMobile ? 0.75 : 0.95,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
-    wheelMultiplier: 1.0,
-    touchMultiplier: isMobile ? 1.3 : 1.8,
+    wheelMultiplier: 0.95,
+    touchMultiplier: isMobile ? 1.2 : 1.5,
     syncTouch: false,
   });
 
@@ -154,7 +154,8 @@ function initLenisSmoothScroll() {
     lenis.raf(time * 1000);
   });
 
-  gsap.ticker.lagSmoothing(500, 33);
+  // lagSmoothing(0) prevents GSAP jumpiness and stutter during Lenis smooth scrolling
+  gsap.ticker.lagSmoothing(0);
 }
 
 /* ==========================================================================
@@ -284,16 +285,39 @@ function initVideoScrollTriggers() {
     });
 
     let targetTime = 0;
-    let rafId = null;
+    let pendingSeek = false;
 
-    function applySeek() {
-      if (videoElem.readyState >= 1 && videoElem.duration && !isNaN(videoElem.duration)) {
-        if (Math.abs(videoElem.currentTime - targetTime) > 0.03) {
+    const performSeek = () => {
+      if (videoElem.readyState < 1 || !videoElem.duration || isNaN(videoElem.duration)) {
+        return;
+      }
+      if (Math.abs(videoElem.currentTime - targetTime) <= 0.02) {
+        return;
+      }
+      // If hardware decoder is already seeking, queue latest target time
+      // to avoid decoder abort loops that freeze the browser
+      if (videoElem.seeking) {
+        pendingSeek = true;
+        return;
+      }
+
+      try {
+        if (typeof videoElem.fastSeek === 'function') {
+          videoElem.fastSeek(targetTime);
+        } else {
           videoElem.currentTime = targetTime;
         }
+      } catch (err) {
+        videoElem.currentTime = targetTime;
       }
-      rafId = null;
-    }
+    };
+
+    videoElem.addEventListener('seeked', () => {
+      if (pendingSeek) {
+        pendingSeek = false;
+        performSeek();
+      }
+    });
 
     ScrollTrigger.create({
       trigger: sectionElem,
@@ -301,7 +325,7 @@ function initVideoScrollTriggers() {
       start: 'top top',
       end: 'bottom bottom',
       pinSpacing: false,
-      scrub: 0.15,
+      scrub: 0.1,
       onUpdate: (self) => {
         const progress = self.progress;
         const duration = videoElem.duration || 5.0;
@@ -310,9 +334,7 @@ function initVideoScrollTriggers() {
         const endTime = duration * cfg.endRatio;
         targetTime = startTime + progress * (endTime - startTime);
 
-        if (!rafId) {
-          rafId = requestAnimationFrame(applySeek);
-        }
+        performSeek();
 
         // Editorial Overlay Text Reveal
         if (overlayContent) {
